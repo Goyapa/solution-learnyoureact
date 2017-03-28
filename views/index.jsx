@@ -41,11 +41,11 @@ import React from 'react';
       render () {
         return (
             <tr>
-              <td style={{border: "1px solid black"}}>
+              <td style={style.tableContent}>
                 <input type="checkbox" checked={this.state.checked} onChange={this.handleChange}/>
               </td>
-              <td style={{border: "1px solid black"}}>{this.props.title}</td>
-              <td style={{border: "1px solid black"}}>{this.props.children}</td>
+              <td style={style.tableContent}>{this.props.title}</td>
+              <td style={style.tableContent}>{this.props.children}</td>
             </tr>
         )
       }
@@ -60,3 +60,8 @@ import React from 'react';
         return (<div className="todoForm">I am a TodoForm.</div>);
       }
     }
+    let style = {
+      tableContent: {
+        border: "1px solid black"
+      }
+    };
