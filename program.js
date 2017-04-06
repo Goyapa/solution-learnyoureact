@@ -14,11 +14,9 @@ var app = express();
 app.set('port', (process.argv[2] || 3000));
 app.set('view engine', 'jsx');
 app.set('views', __dirname + '/views');
-app.engine('jsx', require('express-react-views').createEngine({transformViews: false}));
+app.engine('jsx', require('express-react-views').createEngine());
 
-require('babel/register')({
-    ignore: false
-});
+require('babel/register');
 
 var TodoBox = require('./views/index.jsx');
 
@@ -30,12 +28,8 @@ var data = [
 app.use('/bundle.js', function (req, res) {
     res.setHeader('content-type', 'application/javascript');
 
-    browserify({debug: true})
-        .transform(babelify.configure({
-            presets: ["react", "es2015"],
-            compact: false
-        }))
-        .require("app.js", {entry: true})
+    browserify("./app.js")
+        .transform("babelify",{presets: ["es2015", "react"]})
         .bundle()
         .pipe(res);
 });
