@@ -6,19 +6,58 @@ export default class TodoBox extends React.Component {
             <div className="todoBox">
                 <h1>Todos</h1>
                 <TodoList data={this.props.data}/>
-                <TodoForm />
+                <TodoForm/>
             </div>
         );
     }
 }
 
 class TodoList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: this.props.data,
+      titleValue: "",
+      detailValue: ""
+    };
+    this.changeTitle = this.changeTitle.bind(this);
+    this.changeDetail = this.changeDetail.bind(this);
+    this.addTodo = this.addTodo.bind(this);
+  }
+
+  changeTitle(e) {
+    this.setState({titleValue: e.target.value});
+
+  }
+
+  changeDetail(e) {
+    this.setState({detailValue: e.target.value});
+
+  }
+
+  addTodo() {
+    let newData = this.state.data;
+    newData.push({
+      title: this.state.titleValue,
+      detail: this.state.detailValue
+    });
+    this.setState({data: newData});
+    this.setState({titleValue: ""});
+    this.setState({detailValue: ""});
+
+  }
+
     render() {
         var todo = this.props.data.map(function (obj) {
             return <Todo title={obj.title} key={obj.title}>{obj.detail}</Todo>
         });
         return (
             <div className="todoList">
+              <div>
+                <span>Title:</span><input type="text" value={this.state.titleValue} onChange={this.changeTitle} />
+                <span>Detail:</span><input type="text" value={this.state.detailValue} onChange={this.changeDetail} />
+                <button onClick={this.addTodo}>Add</button>
+              </div>
                 <table style={{border: "2px solid black"}}>
                     <tbody>
                     {todo}
